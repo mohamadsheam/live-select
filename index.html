@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Single || Multi Select</title>
+	<!-- Add link for Single Select -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" />
+    
+    <!-- Add link for Multiple Select -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css" />
+</head>
+<body>
+
+<!-- Add attributes for Single select -->
+ <select class="selectpicker" data-show-subtext="true" data-live-search="true">
+
+<!-- Add attributes for Multiple select -->
+<select id="item" name="field_name[]" multiple >
+
+</body>
+
+<!-- Add Script for Single select -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+
+
+<!-- Add Script for Multiple select -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+<script>
+		$(document).ready(function(){
+			$('#item').multiselect({
+				nonSelectedText: 'Select Item',
+				enableFiltering: true,
+				enableCaseInsensitiveFiltering: true,
+				buttonWidth:'400px'
+			});
+			$('#item_form').on('submit', function(event){
+				event.preventDefault();
+				var form_data = $(this).serialize();
+				$.ajax({
+					url:"insert.php",
+					method:"POST",
+					data:form_data,
+					success:function(data)
+					{
+						$('#item option:selected').each(function(){
+						$(this).prop('selected', false);
+						});
+						$('#item').multiselect('refresh');
+						alert(data);
+					}
+				});
+			});
+		});
+</script>
+
+</html>
